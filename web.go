@@ -7,18 +7,21 @@ import (
 	"encoding/json"
 	"errors"
 
-	"github.com/vvekic/go-steam/cryptoutil"
-	"github.com/vvekic/go-steam/protocol"
-	// . "github.com/vvekic/go-steam/protocol"
 	"net/http"
 	"net/url"
 	"strconv"
 	"sync/atomic"
 
-	// . "github.com/vvekic/go-steam/protocol/protobuf"
+	"github.com/vvekic/go-steam/cryptoutil"
+	"github.com/vvekic/go-steam/protocol"
+
+	"github.com/Philipp15b/go-steam/cryptoutil"
+	"github.com/Philipp15b/go-steam/protocol"
 	"github.com/vvekic/go-steam/protocol/protobuf"
 	"github.com/vvekic/go-steam/protocol/steamlang"
-	// . "github.com/vvekic/go-steam/protocol/steamlang"
+
+	"github.com/Philipp15b/go-steam/protocol/protobuf"
+	"github.com/Philipp15b/go-steam/protocol/steamlang"
 	"github.com/golang/protobuf/proto"
 )
 
