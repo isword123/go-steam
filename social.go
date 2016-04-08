@@ -8,12 +8,12 @@ import (
 	"sync"
 	"time"
 
-	"github.com/Philipp15b/go-steam/protocol"
-	"github.com/Philipp15b/go-steam/protocol/protobuf"
-	"github.com/Philipp15b/go-steam/protocol/steamlang"
-	"github.com/Philipp15b/go-steam/rwu"
-	"github.com/Philipp15b/go-steam/socialcache"
-	"github.com/Philipp15b/go-steam/steamid"
+	"github.com/vvekic/go-steam/protocol"
+	"github.com/vvekic/go-steam/protocol/protobuf"
+	"github.com/vvekic/go-steam/protocol/steamlang"
+	"github.com/vvekic/go-steam/rwu"
+	"github.com/vvekic/go-steam/socialcache"
+	"github.com/vvekic/go-steam/steamid"
 	"github.com/golang/protobuf/proto"
 )
 
