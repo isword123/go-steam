@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"hash/crc32"
 	"io/ioutil"
+	"log"
 	"net"
 	"sync"
 	"sync/atomic"
@@ -49,6 +50,9 @@ type Client struct {
 
 	ConnectionTimeout time.Duration
 
+	Disconnected   chan struct{}
+	disconnectOnce sync.Once
+
 	mutex     sync.RWMutex // guarding conn and writeChan
 	conn      connection
 	writeChan chan protocol.IMsg
@@ -62,8 +66,9 @@ type PacketHandler interface {
 
 func NewClient() *Client {
 	client := &Client{
-		events:   make(chan interface{}, 3),
-		writeBuf: new(bytes.Buffer),
+		events:       make(chan interface{}, 3),
+		writeBuf:     new(bytes.Buffer),
+		Disconnected: make(chan struct{}),
 	}
 	client.Auth = &Auth{client: client}
 	client.RegisterPacketHandler(client.Auth)
@@ -145,25 +150,25 @@ func (c *Client) Connect() *netutil.PortAddr {
 // Connects to a specific server.
 // You may want to use one of the `GetRandom*CM()` functions in this package.
 // If this client is already connected, it is disconnected first.
-func (c *Client) ConnectTo(addr *netutil.PortAddr) {
-	c.ConnectToBind(addr, nil)
+func (c *Client) ConnectTo(addr *netutil.PortAddr) error {
+	return c.ConnectToBind(addr, nil)
 }
 
 // Connects to a specific server, and binds to a specified local IP
 // If this client is already connected, it is disconnected first.
-func (c *Client) ConnectToBind(addr *netutil.PortAddr, local *net.TCPAddr) {
+func (c *Client) ConnectToBind(addr *netutil.PortAddr, local *net.TCPAddr) error {
 	c.Disconnect()
 
 	conn, err := dialTCP(local, addr.ToTCPAddr())
 	if err != nil {
-		c.Fatalf("Connect failed: %v", err)
-		return
+		return err
 	}
 	c.conn = conn
 	c.writeChan = make(chan protocol.IMsg, 5)
 
 	go c.readLoop()
 	go c.writeLoop()
+	return nil
 }
 
 func (c *Client) Disconnect() {
@@ -213,7 +218,10 @@ func (c *Client) readLoop() {
 		packet, err := conn.Read()
 
 		if err != nil {
-			c.Fatalf("Error reading from the connection: %v", err)
+			log.Printf("Error reading from the connection: %v", err)
+			c.disconnectOnce.Do(func() {
+				close(c.Disconnected)
+			})
 			return
 		}
 		c.handlePacket(packet)
@@ -246,7 +254,10 @@ func (c *Client) writeLoop() {
 		c.writeBuf.Reset()
 
 		if err != nil {
-			c.Fatalf("Error writing message %v: %v", msg, err)
+			log.Printf("Error writing message %v: %v", msg, err)
+			c.disconnectOnce.Do(func() {
+				close(c.Disconnected)
+			})
 			return
 		}
 	}
