@@ -3,6 +3,7 @@ package steam
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"math/rand"
 	"net/http"
 	"sync"
@@ -14,24 +15,28 @@ import (
 // Load initial server list from Steam Directory Web API.
 // Call InitializeSteamDirectory() before Connect() to use
 // steam directory server list instead of static one.
-func InitializeSteamDirectory() error {
-	return steamDirectoryCache.Initialize()
+func InitializeSteamDirectory(cellId int) error {
+	return steamDirectoryCache.Initialize(cellId)
+}
+
+func UpdateSteamDirectory(servers []*netutil.PortAddr) {
+	steamDirectoryCache.UpdateServerList(servers)
 }
 
 var steamDirectoryCache *steamDirectory = &steamDirectory{}
 
 type steamDirectory struct {
 	sync.RWMutex
-	servers       []string
+	servers       []*netutil.PortAddr
 	isInitialized bool
 }
 
 // Get server list from steam directory and save it for later
-func (sd *steamDirectory) Initialize() error {
+func (sd *steamDirectory) Initialize(cellId int) error {
 	sd.Lock()
 	defer sd.Unlock()
 	client := new(http.Client)
-	resp, err := client.Get(fmt.Sprintf("https://api.steampowered.com/ISteamDirectory/GetCMList/v1/?cellId=0"))
+	resp, err := client.Get(fmt.Sprintf("https://api.steampowered.com/ISteamDirectory/GetCMList/v1/?cellId=%d", cellId))
 	if err != nil {
 		return err
 	}
@@ -52,7 +57,10 @@ func (sd *steamDirectory) Initialize() error {
 	if len(r.Response.ServerList) == 0 {
 		return fmt.Errorf("Steam returned zero servers for steam directory request\n")
 	}
-	sd.servers = r.Response.ServerList
+	sd.servers = []*netutil.PortAddr{}
+	for _, s := range r.Response.ServerList {
+		sd.servers = append(sd.servers, netutil.ParsePortAddr(s))
+	}
 	sd.isInitialized = true
 	return nil
 }
@@ -64,8 +72,15 @@ func (sd *steamDirectory) GetRandomCM() *netutil.PortAddr {
 		panic("steam directory is not initialized")
 	}
 	rng := rand.New(rand.NewSource(time.Now().UnixNano()))
-	addr := netutil.ParsePortAddr(sd.servers[rng.Int31n(int32(len(sd.servers)))])
+	addr := sd.servers[rng.Int31n(int32(len(sd.servers)))]
 	return addr
+}
+
+func (sd *steamDirectory) UpdateServerList(servers []*netutil.PortAddr) {
+	sd.Lock()
+	defer sd.Unlock()
+	log.Printf("Updating Steam CM server list")
+	sd.servers = servers
 }
 
 func (sd *steamDirectory) IsInitialized() bool {

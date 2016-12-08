@@ -218,10 +218,7 @@ func (c *Client) readLoop() {
 		packet, err := conn.Read()
 
 		if err != nil {
-			log.Printf("Error reading from the connection: %v", err)
-			c.disconnectOnce.Do(func() {
-				close(c.Disconnected)
-			})
+			c.Fatalf("Error reading from the connection: %v", err)
 			return
 		}
 		c.handlePacket(packet)
@@ -244,8 +241,7 @@ func (c *Client) writeLoop() {
 
 		err := msg.Serialize(c.writeBuf)
 		if err != nil {
-			c.writeBuf.Reset()
-			c.Fatalf("Error serializing message %v: %v", msg, err)
+			c.Fatalf("Error writing message %v: %v", msg, err)
 			return
 		}
 
@@ -255,9 +251,7 @@ func (c *Client) writeLoop() {
 
 		if err != nil {
 			log.Printf("Error writing message %v: %v", msg, err)
-			c.disconnectOnce.Do(func() {
-				close(c.Disconnected)
-			})
+			c.Fatalf("Error writing")
 			return
 		}
 	}
