@@ -34,7 +34,6 @@ func (g *GameCoordinator) HandlePacket(packet *protocol.Packet) {
 	if packet.EMsg != steamlang.EMsg_ClientFromGC {
 		return
 	}
-
 	msg := new(protobuf.CMsgGCClient)
 	packet.ReadProtoMsg(msg)
 

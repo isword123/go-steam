@@ -3576,6 +3576,11 @@ const (
 	EResult_EmailSendFailure                        EResult = 99
 	EResult_NotSettled                              EResult = 100
 	EResult_NeedCaptcha                             EResult = 101
+	EResult_GSLTDenied                              EResult = 102
+	EResult_GSOwnerDenied                           EResult = 103
+	EResult_InvalidItemType                         EResult = 104
+	EResult_IPBanned                                EResult = 105
+	EResult_GSLTExpired                             EResult = 106
 )
 
 var EResult_name = map[EResult]string{
@@ -3680,6 +3685,11 @@ var EResult_name = map[EResult]string{
 	99:  "EResult_EmailSendFailure",
 	100: "EResult_NotSettled",
 	101: "EResult_NeedCaptcha",
+	102: "EResult_GSLTDenied",
+	103: "EResult_GSOwnerDenied",
+	104: "EResult_InvalidItemType",
+	105: "EResult_IPBanned",
+	106: "EResult_GSLTExpired",
 }
 
 func (e EResult) String() string {
@@ -4171,6 +4181,7 @@ const (
 	EPersonaStateFlag_OnlineUsingWeb        EPersonaStateFlag = 256
 	EPersonaStateFlag_OnlineUsingMobile     EPersonaStateFlag = 512
 	EPersonaStateFlag_OnlineUsingBigPicture EPersonaStateFlag = 1024
+	EPersonaStateFlag_OnlineUsingVR         EPersonaStateFlag = 2048
 )
 
 var EPersonaStateFlag_name = map[EPersonaStateFlag]string{
@@ -4179,6 +4190,7 @@ var EPersonaStateFlag_name = map[EPersonaStateFlag]string{
 	256:  "EPersonaStateFlag_OnlineUsingWeb",
 	512:  "EPersonaStateFlag_OnlineUsingMobile",
 	1024: "EPersonaStateFlag_OnlineUsingBigPicture",
+	2048: "EPersonaStateFlag_OnlineUsingVR",
 }
 
 func (e EPersonaStateFlag) String() string {

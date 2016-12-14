@@ -66,12 +66,12 @@ func cleanGlob(pattern string) {
 
 func buildSteamLanguage() {
 	print("# Building Steam Language")
-	exePath := "./GoSteamLanguageGenerator/bin/Debug/GoSteamLanguageGenerator.exe"
+	exePath := "./GoSteamLanguageGenerator.exe"
 
 	if runtime.GOOS != "windows" {
-		execute("mono", exePath, "./SteamKit", "../protocol/steamlang")
+		execute("mono", exePath, "./SteamLanguage", "../protocol/steamlang")
 	} else {
-		execute(exePath, "./SteamKit", "../protocol/steamlang")
+		execute(exePath, "./SteamLanguage", "../protocol/steamlang")
 	}
 	execute("gofmt", "-w", "../protocol/steamlang/enums.go", "../protocol/steamlang/messages.go")
 }
@@ -80,7 +80,6 @@ func buildProto() {
 	print("# Building Protobufs")
 
 	buildProtoMap("steamclient", clientProtoFiles, "../protocol/protobuf")
-	buildProtoMap("tf", tf2ProtoFiles, "../tf2/protocol/protobuf")
 	buildProtoMap("dota", dotaProtoFiles, "../dota/protocol/protobuf")
 }
 
@@ -88,7 +87,7 @@ func buildProtoMap(srcSubdir string, files map[string]string, outDir string) {
 	os.MkdirAll(outDir, os.ModePerm)
 	for proto, out := range files {
 		full := filepath.Join(outDir, out)
-		compileProto("SteamKit/Resources/Protobufs", srcSubdir, proto, full)
+		compileProto("Protobufs", srcSubdir, proto, full)
 		fixProto(full)
 	}
 }
@@ -116,22 +115,21 @@ var clientProtoFiles = map[string]string{
 	"steammessages_publishedfile.steamclient.proto":     "unified/publishedfile.pb.go",
 }
 
-var tf2ProtoFiles = map[string]string{
-	"base_gcmessages.proto":  "base.pb.go",
-	"econ_gcmessages.proto":  "econ.pb.go",
-	"gcsdk_gcmessages.proto": "gcsdk.pb.go",
-	"tf_gcmessages.proto":    "tf.pb.go",
-	"gcsystemmsgs.proto":     "system.pb.go",
-}
-
 var dotaProtoFiles = map[string]string{
-	"base_gcmessages.proto":                "base.pb.go",
-	"econ_gcmessages.proto":                "econ.pb.go",
-	"gcsdk_gcmessages.proto":               "gcsdk.pb.go",
-	"dota_gcmessages_common.proto":         "dota_common.pb.go",
-	"dota_gcmessages_client.proto":         "dota_client.pb.go",
-	"dota_gcmessages_client_fantasy.proto": "dota_client_fantasy.pb.go",
-	"gcsystemmsgs.proto":                   "system.pb.go",
+	"base_gcmessages.proto":                         "base.pb.go",
+	"econ_gcmessages.proto":                         "econ.pb.go",
+	"gcsdk_gcmessages.proto":                        "gcsdk.pb.go",
+	"dota_gcmessages_common.proto":                  "dota_common.pb.go",
+	"dota_gcmessages_client.proto":                  "dota_client.pb.go",
+	"dota_gcmessages_client_fantasy.proto":          "dota_client_fantasy.pb.go",
+	"dota_shared_enums.proto":                       "dota_shared_enums.pb.go",
+	"dota_gcmessages_common_match_management.proto": "dota_gcmessages_common_match_management.pb.go",
+	"econ_shared_enums.proto":                       "econ_shared_enums.pb.go",
+	"steammessages.proto":                           "steammessages.pb.go",
+	"dota_gcmessages_msgid.proto":                   "dota_gcmessages_msgid.pb.go",
+	"dota_gcmessages_client_watch.proto":            "dota_gcmessages_client_watch.pb.go",
+
+	"gcsystemmsgs.proto": "system.pb.go",
 }
 
 func compileProto(srcBase, srcSubdir, proto, target string) {

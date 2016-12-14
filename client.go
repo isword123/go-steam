@@ -136,15 +136,14 @@ func (c *Client) Connected() bool {
 // This method tries to use an address from the Steam Directory and falls
 // back to the built-in server list if the Steam Directory can't be reached.
 // If you want to connect to a specific server, use `ConnectTo`.
-func (c *Client) Connect() *netutil.PortAddr {
+func (c *Client) Connect() error {
 	var server *netutil.PortAddr
 	if steamDirectoryCache.IsInitialized() {
 		server = steamDirectoryCache.GetRandomCM()
 	} else {
 		server = GetRandomCM()
 	}
-	c.ConnectTo(server)
-	return server
+	return c.ConnectTo(server)
 }
 
 // Connects to a specific server.
@@ -157,7 +156,7 @@ func (c *Client) ConnectTo(addr *netutil.PortAddr) error {
 // Connects to a specific server, and binds to a specified local IP
 // If this client is already connected, it is disconnected first.
 func (c *Client) ConnectToBind(addr *netutil.PortAddr, local *net.TCPAddr) error {
-	c.Disconnect()
+	c.DisconnectNoEvent()
 
 	conn, err := dialTCP(local, addr.ToTCPAddr())
 	if err != nil {
@@ -171,20 +170,28 @@ func (c *Client) ConnectToBind(addr *netutil.PortAddr, local *net.TCPAddr) error
 	return nil
 }
 
-func (c *Client) Disconnect() {
-	c.mutex.Lock()
-	defer c.mutex.Unlock()
-
+func (c *Client) disconnectNoLock() {
 	if c.conn == nil {
 		return
 	}
-
 	c.conn.Close()
 	c.conn = nil
 	if c.heartbeat != nil {
 		c.heartbeat.Stop()
 	}
 	close(c.writeChan)
+}
+
+func (c *Client) DisconnectNoEvent() {
+	c.mutex.Lock()
+	defer c.mutex.Unlock()
+	c.disconnectNoLock()
+}
+
+func (c *Client) Disconnect() {
+	c.mutex.Lock()
+	defer c.mutex.Unlock()
+	c.disconnectNoLock()
 	c.Emit(&DisconnectedEvent{})
 
 }

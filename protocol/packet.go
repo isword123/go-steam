@@ -5,8 +5,8 @@ import (
 	"encoding/binary"
 	"fmt"
 
-	"github.com/vvekic/go-steam/protocol/steamlang"
 	"github.com/golang/protobuf/proto"
+	"github.com/vvekic/go-steam/protocol/steamlang"
 )
 
 // TODO: Headers are always deserialized twice.
@@ -28,6 +28,7 @@ func NewPacket(data []byte) (*Packet, error) {
 	}
 	eMsg := steamlang.NewEMsg(rawEMsg)
 	buf := bytes.NewReader(data)
+	fmt.Printf("got emsg %d\n", eMsg)
 	if eMsg == steamlang.EMsg_ChannelEncryptRequest || eMsg == steamlang.EMsg_ChannelEncryptResult {
 		header := steamlang.NewMsgHdr()
 		header.Msg = eMsg

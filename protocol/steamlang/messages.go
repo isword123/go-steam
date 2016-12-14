@@ -5,10 +5,10 @@ package steamlang
 
 import (
 	"encoding/binary"
+	"github.com/golang/protobuf/proto"
 	. "github.com/vvekic/go-steam/protocol/protobuf"
 	"github.com/vvekic/go-steam/rwu"
 	"github.com/vvekic/go-steam/steamid"
-	"github.com/golang/protobuf/proto"
 	"io"
 )
 
@@ -1973,64 +1973,6 @@ func (d *MsgClientChatRoomInfo) Deserialize(r io.Reader) error {
 	d.SteamIdChat = steamid.SteamId(t0)
 	t1, err := rwu.ReadInt32(r)
 	d.Type = EChatInfoType(t1)
-	return err
-}
-
-type MsgClientGetNumberOfCurrentPlayers struct {
-	GameID uint64
-}
-
-func NewMsgClientGetNumberOfCurrentPlayers() *MsgClientGetNumberOfCurrentPlayers {
-	return &MsgClientGetNumberOfCurrentPlayers{}
-}
-
-func (d *MsgClientGetNumberOfCurrentPlayers) GetEMsg() EMsg {
-	return EMsg_ClientGetNumberOfCurrentPlayers
-}
-
-func (d *MsgClientGetNumberOfCurrentPlayers) Serialize(w io.Writer) error {
-	var err error
-	err = binary.Write(w, binary.LittleEndian, d.GameID)
-	return err
-}
-
-func (d *MsgClientGetNumberOfCurrentPlayers) Deserialize(r io.Reader) error {
-	var err error
-	d.GameID, err = rwu.ReadUint64(r)
-	return err
-}
-
-type MsgClientGetNumberOfCurrentPlayersResponse struct {
-	Result     EResult
-	NumPlayers uint32
-}
-
-func NewMsgClientGetNumberOfCurrentPlayersResponse() *MsgClientGetNumberOfCurrentPlayersResponse {
-	return &MsgClientGetNumberOfCurrentPlayersResponse{}
-}
-
-func (d *MsgClientGetNumberOfCurrentPlayersResponse) GetEMsg() EMsg {
-	return EMsg_ClientGetNumberOfCurrentPlayersResponse
-}
-
-func (d *MsgClientGetNumberOfCurrentPlayersResponse) Serialize(w io.Writer) error {
-	var err error
-	err = binary.Write(w, binary.LittleEndian, d.Result)
-	if err != nil {
-		return err
-	}
-	err = binary.Write(w, binary.LittleEndian, d.NumPlayers)
-	return err
-}
-
-func (d *MsgClientGetNumberOfCurrentPlayersResponse) Deserialize(r io.Reader) error {
-	var err error
-	t0, err := rwu.ReadInt32(r)
-	if err != nil {
-		return err
-	}
-	d.Result = EResult(t0)
-	d.NumPlayers, err = rwu.ReadUint32(r)
 	return err
 }
 

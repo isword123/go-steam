@@ -12,12 +12,11 @@ namespace GoSteamLanguageGenerator
 		public static void Main(string[] args)
 		{
 			if (args.Length < 2) {
-				Console.WriteLine("Must have at least two parameters: SteamKit root path and output path!");
+				Console.WriteLine("Must have at least two parameters: SteamLanguage files path and output path!");
 				return;
 			}
 
-			string steamKitPath = Path.GetFullPath(args[0]);
-			string languagePath = Path.Combine(steamKitPath, "Resources", "SteamLanguage");
+			string languagePath = Path.GetFullPath(args[0]);
 			string outputPath = Path.GetFullPath(args[1]);
 
 			Environment.CurrentDirectory = languagePath;
@@ -45,8 +44,8 @@ namespace GoSteamLanguageGenerator
 
             Directory.CreateDirectory(Path.GetDirectoryName(outputEnumFile));
 
-			File.WriteAllText(Path.Combine(steamKitPath, outputEnumFile), enumBuilder.ToString());
-			File.WriteAllText(Path.Combine(steamKitPath, outputMessageFile), messageBuilder.ToString());
+			File.WriteAllText(outputEnumFile, enumBuilder.ToString());
+			File.WriteAllText(outputMessageFile, messageBuilder.ToString());
 		}
 	}
 }
