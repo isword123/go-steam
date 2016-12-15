@@ -5,11 +5,11 @@ import (
 	"sync/atomic"
 	"time"
 
+	"github.com/golang/protobuf/proto"
 	"github.com/vvekic/go-steam/protocol"
 	"github.com/vvekic/go-steam/protocol/protobuf"
 	"github.com/vvekic/go-steam/protocol/steamlang"
 	"github.com/vvekic/go-steam/steamid"
-	"github.com/golang/protobuf/proto"
 )
 
 type Auth struct {

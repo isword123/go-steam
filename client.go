@@ -201,6 +201,7 @@ func (c *Client) Disconnect() {
 //
 // Writes to this client when not connected are ignored.
 func (c *Client) Write(msg protocol.IMsg) {
+	log.Printf("sending %d", msg.GetMsgType())
 	if cm, ok := msg.(protocol.IClientMsg); ok {
 		cm.SetSessionId(c.SessionId())
 		cm.SetSteamId(c.SteamId())
