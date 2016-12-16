@@ -1,0 +1,16 @@
+D:\dev\gopath\src\github.com\SteamRE\SteamKit\Resources\ProtobufDumper\ProtobufDumper\bin\Release\ProtobufDumper.exe
+D:\dev\gopath\src\github.com\SteamRE\SteamKit\Resources\ProtobufDumper\ProtobufDumper\bin\Release\ProtobufDumper.pdb
+D:\dev\gopath\src\github.com\SteamRE\SteamKit\Resources\ProtobufDumper\ProtobufDumper\bin\Release\protobuf-net.dll
+D:\dev\gopath\src\github.com\SteamRE\SteamKit\Resources\ProtobufDumper\ProtobufDumper\bin\Release\protobuf-net.pdb
+D:\dev\gopath\src\github.com\SteamRE\SteamKit\Resources\ProtobufDumper\ProtobufDumper\bin\Release\protobuf-net.xml
+D:\dev\gopath\src\github.com\SteamRE\SteamKit\Resources\ProtobufDumper\ProtobufDumper\obj\Release\ProtobufDumper.csprojResolveAssemblyReference.cache
+D:\dev\gopath\src\github.com\SteamRE\SteamKit\Resources\ProtobufDumper\ProtobufDumper\obj\Release\ProtobufDumper.exe
+D:\dev\gopath\src\github.com\SteamRE\SteamKit\Resources\ProtobufDumper\ProtobufDumper\obj\Release\ProtobufDumper.pdb
+D:\dev\gopath\src\github.com\vvekic\go-steam\generator\ProtobufDumper\ProtobufDumper\obj\Release\ProtobufDumper.exe
+D:\dev\gopath\src\github.com\vvekic\go-steam\generator\ProtobufDumper\ProtobufDumper\obj\Release\ProtobufDumper.pdb
+D:\dev\gopath\src\github.com\vvekic\go-steam\generator\ProtobufDumper\ProtobufDumper\bin\Release\ProtobufDumper.exe
+D:\dev\gopath\src\github.com\vvekic\go-steam\generator\ProtobufDumper\ProtobufDumper\bin\Release\ProtobufDumper.pdb
+D:\dev\gopath\src\github.com\vvekic\go-steam\generator\ProtobufDumper\ProtobufDumper\bin\Release\protobuf-net.dll
+D:\dev\gopath\src\github.com\vvekic\go-steam\generator\ProtobufDumper\ProtobufDumper\bin\Release\protobuf-net.pdb
+D:\dev\gopath\src\github.com\vvekic\go-steam\generator\ProtobufDumper\ProtobufDumper\bin\Release\protobuf-net.xml
+D:\dev\gopath\src\github.com\vvekic\go-steam\generator\ProtobufDumper\ProtobufDumper\obj\Release\ProtobufDumper.csprojResolveAssemblyReference.cache
