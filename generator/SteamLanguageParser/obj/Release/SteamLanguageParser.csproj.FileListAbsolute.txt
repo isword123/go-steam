@@ -1,0 +1,3 @@
+D:\dev\gopath\src\github.com\vvekic\go-steam\generator\SteamLanguageParser\bin\Release\SteamLanguageParser.exe.config
+D:\dev\gopath\src\github.com\vvekic\go-steam\generator\SteamLanguageParser\bin\Release\SteamLanguageParser.exe
+D:\dev\gopath\src\github.com\vvekic\go-steam\generator\SteamLanguageParser\obj\Release\SteamLanguageParser.exe

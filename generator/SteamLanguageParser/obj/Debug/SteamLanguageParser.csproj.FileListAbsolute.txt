@@ -1,0 +1,6 @@
+D:\dev\gopath\src\github.com\vvekic\go-steam\generator\SteamLanguageParser\bin\Debug\SteamLanguageParser.exe.config
+D:\dev\gopath\src\github.com\vvekic\go-steam\generator\SteamLanguageParser\bin\Debug\SteamLanguageParser.exe
+D:\dev\gopath\src\github.com\vvekic\go-steam\generator\SteamLanguageParser\bin\Debug\SteamLanguageParser.pdb
+D:\dev\gopath\src\github.com\vvekic\go-steam\generator\SteamLanguageParser\obj\Debug\SteamLanguageParser.csprojResolveAssemblyReference.cache
+D:\dev\gopath\src\github.com\vvekic\go-steam\generator\SteamLanguageParser\obj\Debug\SteamLanguageParser.exe
+D:\dev\gopath\src\github.com\vvekic\go-steam\generator\SteamLanguageParser\obj\Debug\SteamLanguageParser.pdb
