@@ -28,7 +28,7 @@ func NewPacket(data []byte) (*Packet, error) {
 	}
 	eMsg := steamlang.NewEMsg(rawEMsg)
 	buf := bytes.NewReader(data)
-	fmt.Printf("got emsg %d\n", eMsg)
+	// fmt.Printf("got emsg %d\n", eMsg)
 	if eMsg == steamlang.EMsg_ChannelEncryptRequest || eMsg == steamlang.EMsg_ChannelEncryptResult {
 		header := steamlang.NewMsgHdr()
 		header.Msg = eMsg
