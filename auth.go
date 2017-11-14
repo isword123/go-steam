@@ -119,6 +119,7 @@ func (a *Auth) handleLogOnResponse(packet *protocol.Packet) {
 		a.client.Emit(&LogOnFailedEvent{
 			Result: steamlang.EResult(body.GetEresult()),
 		})
+		a.client.Disconnect()
 	}
 }
 

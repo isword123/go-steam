@@ -98,7 +98,7 @@ func (c *Client) Emit(event interface{}) {
 // Emits a FatalErrorEvent formatted with fmt.Errorf and disconnects.
 func (c *Client) Fatalf(format string, a ...interface{}) {
 	c.Emit(FatalErrorEvent(fmt.Errorf(format, a...)))
-	c.DisconnectNoEvent()
+	c.Disconnect()
 }
 
 // Emits an error formatted with fmt.Errorf.
@@ -137,7 +137,13 @@ func (c *Client) Connected() bool {
 // back to the built-in server list if the Steam Directory can't be reached.
 // If you want to connect to a specific server, use `ConnectTo`.
 func (c *Client) Connect() error {
-	return c.ConnectTo(steamDirectoryCache.GetRandomCM())
+	var server *netutil.PortAddr
+	if steamDirectoryCache.IsInitialized() {
+		server = steamDirectoryCache.GetRandomCM()
+	} else {
+		server = GetRandomCM()
+	}
+	return c.ConnectTo(server)
 }
 
 // Connects to a specific server.
@@ -195,7 +201,7 @@ func (c *Client) Disconnect() {
 //
 // Writes to this client when not connected are ignored.
 func (c *Client) Write(msg protocol.IMsg) {
-	// log.Printf("sending %d", msg.GetMsgType())
+	log.Printf("sending %d", msg.GetMsgType())
 	if cm, ok := msg.(protocol.IClientMsg); ok {
 		cm.SetSessionId(c.SessionId())
 		cm.SetSteamId(c.SteamId())

@@ -3,6 +3,7 @@ package steam
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"math/rand"
 	"net/http"
 	"sync"
@@ -56,10 +57,10 @@ func (sd *steamDirectory) Initialize(cellId int) error {
 	if len(r.Response.ServerList) == 0 {
 		return fmt.Errorf("Steam returned zero servers for steam directory request\n")
 	}
-	sd.servers = []*netutil.PortAddr{GetRandomEuropeCM()}
-	// for _, s := range r.Response.ServerList {
-	// 	sd.servers = append(sd.servers, netutil.ParsePortAddr(s))
-	// }
+	sd.servers = []*netutil.PortAddr{}
+	for _, s := range r.Response.ServerList {
+		sd.servers = append(sd.servers, netutil.ParsePortAddr(s))
+	}
 	sd.isInitialized = true
 	return nil
 }
@@ -78,7 +79,7 @@ func (sd *steamDirectory) GetRandomCM() *netutil.PortAddr {
 func (sd *steamDirectory) UpdateServerList(servers []*netutil.PortAddr) {
 	sd.Lock()
 	defer sd.Unlock()
-	// log.Printf("Updating Steam CM server list")
+	log.Printf("Updating Steam CM server list")
 	sd.servers = servers
 }
 
