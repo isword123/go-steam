@@ -2795,6 +2795,8 @@ type CMsgDOTAProfileCard struct {
 	EventPoints            *uint32                     `protobuf:"varint,5,opt,name=event_points,json=eventPoints" json:"event_points,omitempty"`
 	EventId                *uint32                     `protobuf:"varint,6,opt,name=event_id,json=eventId" json:"event_id,omitempty"`
 	RecentBattleCupVictory *CMsgBattleCupVictory       `protobuf:"bytes,7,opt,name=recent_battle_cup_victory,json=recentBattleCupVictory" json:"recent_battle_cup_victory,omitempty"`
+	RankTier                *uint32                    `protobuf:"varint,8,opt,name=rank_tier,json=rankTier" json:"rank_tier,omitempty"`
+	LeaderboardRank                *uint32             `protobuf:"varint,9,opt,name=leaderboard_rank,json=leaderboardRank" json:"leaderboard_rank,omitempty"`
 	XXX_unrecognized       []byte                      `json:"-"`
 }
 
@@ -2841,6 +2843,20 @@ func (m *CMsgDOTAProfileCard) GetEventPoints() uint32 {
 func (m *CMsgDOTAProfileCard) GetEventId() uint32 {
 	if m != nil && m.EventId != nil {
 		return *m.EventId
+	}
+	return 0
+}
+
+func (m *CMsgDOTAProfileCard) GetRankTier() uint32 {
+	if m != nil && m.RankTier!= nil {
+		return *m.RankTier
+	}
+	return 0
+}
+
+func (m *CMsgDOTAProfileCard) GetLeaderboardRank() uint32 {
+	if m != nil && m.LeaderboardRank != nil {
+		return *m.LeaderboardRank
 	}
 	return 0
 }
